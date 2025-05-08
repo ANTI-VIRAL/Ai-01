@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# IP dan PORT VPS RELAY kamu
-RELAY_IP="135.148.227.129"
-RELAY_PORT="11002"
+# PORT VPS RELAY kamu
+RELAY_PORT="11003"
 
 # FLUSH tapi jaga koneksi SSH biar gak lost
 sudo iptables -F
@@ -17,8 +16,8 @@ sudo iptables -P FORWARD DROP
 sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 sudo iptables -A OUTPUT -p tcp --sport 22 -j ACCEPT
 
-# Allow relay pool proxy
-sudo iptables -A OUTPUT -p tcp -d $RELAY_IP --dport $RELAY_PORT -j ACCEPT
+# Allow koneksi keluar ke port relay (destination ALL)
+sudo iptables -A OUTPUT -p tcp --dport $RELAY_PORT -j ACCEPT
 
 # Allow DNS (kalau pakai domain)
 sudo iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
